@@ -1,0 +1,73 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Szczur
+      changes:
+        - createTable:
+            tableName: activity
+            columns:
+              - column:
+                  name: id
+                  type: varchar(64)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 2
+      author: Szczur
+      changes:
+        - createTable:
+            tableName: activity_attribute
+            columns:
+              - column:
+                  name: activity_id
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: attribute_type
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: attribute_value
+                  type: integer
+        - addForeignKeyConstraint:
+            baseTableName: activity_attribute
+            baseColumnNames: activity_id
+            referencedTableName: activity
+            referencedColumnNames: id
+            constraintName: fk_activity_attribute_activity
+        - addUniqueConstraint:
+            tableName: activity_attribute
+            columnNames: activity_id,attribute_type
+            constraintName: uk_activity_attribute
+
+  - changeSet:
+      id: 3
+      author: Szczur
+      changes:
+        - insert:
+            tableName: attribute_type
+            columns:
+              - column:
+                  name: name
+                  value: TYPE1
+        - insert:
+            tableName: attribute_type
+            columns:
+              - column:
+                  name: name
+                  value: TYPE2
+        - insert:
+            tableName: attribute_type
+            columns:
+              - column:
+                  name: name
+                  value: TYPE3
